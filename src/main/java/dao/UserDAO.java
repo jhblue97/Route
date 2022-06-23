@@ -27,7 +27,7 @@ public class UserDAO {
 	
 
 
-	  /*public boolean deleteUser(String userId) {
+	  public boolean deleteUser(String userId) {
 			  
 		
 		  
@@ -54,19 +54,18 @@ public class UserDAO {
 			  
 			  }
 			  return result; 
-	 }*/
+	 }
 	  
 	
-  /*public boolean addUser(Users user) {
+  public boolean addUser(Users user) {
 		  
 	  System.out.println(user.getUserName());
 	  
 		  query =
-		  "INSERT INTO USERS"
-		  + "(USERID, USERNAME, PWD, GRADENO,REGDATE)"
-		  + "VALUES(?,?,?,?,SYSDATE)"
-		  + ""
-		  ; System.out.println(query);
+				 " INSERT INTO DEV.USERS "
+				 +" (USERID, USERNAME, PWD, BIRTH, SEX, NATION) "
+				 +" VALUES(?,?,?,?,?,?)";
+		  System.out.println(query);
 		  
 		  try { 
 		  con = DBcon.getConnection(); 
@@ -74,8 +73,9 @@ public class UserDAO {
 		  pstmt.setString(1,user.getUserID()); 
 		  pstmt.setString(2,user.getUserName());
 		  pstmt.setString(3,user.getPwd()); 
-		  pstmt.setString(4,user.getGradeNo());
-		  
+		  pstmt.setString(4,user.getBirth());
+		  pstmt.setString(5,user.getSex());
+		  pstmt.setString(6,user.getNation());
 		  if(pstmt.executeUpdate()==1) { 
 			   System.out.println("insert ok"); 
 			  result = true;
@@ -90,17 +90,17 @@ public class UserDAO {
 		  
 		  }
 		  return result; 
-		  }*/
+		  }
   
 
   public Users getUser(String userId,String pwd) {
-		   
+		   System.out.println("???");
 		Users user = new Users();
-		
-	  int count = 0;
+
 		  query =
 		//  "SELECT * FROM USERS WHERE USERID = '"+userId+"' AND pwd = '"+pwd+"'";
-		  "SELECT * FROM dev.USERS ";
+		  "SELECT * FROM dev.USERS where userid =  '"+userId +"' and pwd = '"+pwd+"'";
+		  System.out.println("qery"+query);
 		  try {		
 				con = DBcon.getConnection();
 				stmt = con.createStatement();			
