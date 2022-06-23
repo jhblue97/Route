@@ -8,9 +8,17 @@ public class Review {
 	private int tripNo;
 	private String userId;
 	private float star;
-	private String commet;
 	private float cost;
 	private Date regDate;
+	private float time;
+	
+	public float getTime() {
+		return time;
+	}
+	public void setTime(float f) {
+		this.time = f;
+	}
+	
 	public int getReviewNo() {
 		return reviewNo;
 	}
@@ -34,12 +42,6 @@ public class Review {
 	}
 	public void setStar(float star) {
 		this.star = star;
-	}
-	public String getCommet() {
-		return commet;
-	}
-	public void setCommet(String commet) {
-		this.commet = commet;
 	}
 	public float getCost() {
 		return cost;

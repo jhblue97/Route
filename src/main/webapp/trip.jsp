@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>여행공유</title>
 
 
 <style>
@@ -309,7 +309,7 @@ function displayPagination(pagination) {
         var el = document.createElement('a');
         el.href = "#";
         el.innerHTML = i;
-        
+
         if (i===pagination.current) {
             el.className = 'on';
         } else {
@@ -339,7 +339,7 @@ function displayInfowindow(marker, title) {
 	//  37.53085611757179
 
 	var position = marker.getPosition(); 
-	console.log(position); //
+	
 	console.log(position.La); // 위도
 	console.log(position.Ma); // 경도
 
@@ -349,41 +349,7 @@ function displayInfowindow(marker, title) {
     infowindow.open(map, marker); 
     
     kakao.maps.event.addListener(marker, 'click', function() {
-    	$('#La').val(position.La);
-    	$('#Ma').val(position.Ma);
-    	$('#title').val(title);
     	$("#myModalLabel" ).text(title +"위도 : "+position.La +"경도 : " + position.Ma);   	
-    	
-    	  $.ajax({   
-    		   url: '/trip/getTrip.do?x='+position.La+"&y="+position.Ma, // 요청 할 주소    
-    		    async: true, // false 일 경우 동기 요청으로 변경    
-    		    type: 'get',
-    		    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-    		    dataType: 'text', // xml, json, script, html   
-    		    success: function(data) {
-    		    	console.log(data);
-    		    	var json_p = JSON.parse(data);
-    		    	console.log(json_p.cost);
-    		    	$('#theme').text(json_p.theme);
-    		    	$('#cost').text(json_p.cost);
-    		    	$('#time').text(json_p.time);
-    		    	$('#star').text(json_p.star);	
-    		    	
-    		    	if(json_p.theme!=''){
-    		    		$('#theme_flag').val(json_p.theme);
-    		    	}else{
-    		    		$('#theme_flag').val("false");
-    		    	}
-    		    	
-    		    }, // 요청 완료 시   
-    		    error: function(data) {
-    				
-    		   } // 요청 실패.   
-    	}); 
-    	
-    	
-    	
-    	
     	$('#myModal').modal('show');
     	
   });
@@ -463,12 +429,8 @@ function removeAllChildNods(el) {
     </tr>
   </tbody>
 </table> 
-<input type = "hidden" id = "theme_flag">
-<input type = "hidden" id = "La">
-<input type = "hidden" id = "Ma">
-<input type = "hidden" id = "title">
-<input type = "hidden" id = "userId" value = "<%=session.getAttribute("userId")%>">
-   <!-- <button type="submit" class="btn btn-info"  data-dismiss="modal"  id="btn_add">후기 등록하기</button> -->
+
+   <!-- 	<button type="submit" class="btn btn-info"  data-dismiss="modal"  id="btn_add">후기 등록하기</button> -->
    	 	<button type="button" class="btn btn-info"    id="btn_add">후기 등록하기</button>
    		<button type="button" class="btn btn-info"    id="btn_addProc">등록</button>
     </div>
@@ -477,74 +439,31 @@ function removeAllChildNods(el) {
   <script>
   $('#btn_addProc').hide();
   $('#btn_add').click( function() {
-	  
-	if($('#theme_flag').val() =='false'){
-	
-		  var select = '<select class="custom-select" id="in_theme">'
-			   + ' <option value="food" selected >맛집</option>'
-			    + '<option value="place">명소</option>'
-			    + '<option value="cafe">카페</option>'
-			   + '</select>';
-	}else{
-		var text = "";
-		if($('#theme_flag').val()=="food"){
-			text = "맛집";
-		}else if($('#theme_flag').val()=="place"){
-			text = "명소";
-		}else{
-			text = "카페";
-		}
-		  var select = '<input type = "hidden" id="in_theme" value = "'+$('#theme_flag').val()+'" readonly>' +  text;
-		  
-	}
-	  
-	
+	  // function
 	  
 	  $('#btn_addProc').show();
 	  $('#btn_add').hide();
 	  
-	  $('#theme').html(select);
+	  $('#theme').html('<input type = "text" id="in_theme">');
 	  $('#cost').html('<input type = "text" id="in_cost" placeholder="원 단위">');
 	  $('#time').html('<input type = "text" id="in_time">');
 	  $('#star').html('<input type = "text" id="in_star" placeholder="1~5점 사이">');
-	
+	  
+	 
 	} );
   
   $('#btn_addProc').click( function() {
+	
+	 /* $.ajax ({
+	        "url" : "/Board/json/getBoard.do?num="+recipient,
+	        cache : false,
+	        type:"get", 
+	        dataType: "json",
+	        success : function (data) 	        
+	        {	  	
+	        } */
+ 	 });	
 	  
-
- 	 $.ajax({   
-		   url: '/review/addReview.do', // 요청 할 주소    
-		    async: true, // false 일 경우 동기 요청으로 변경    
-		    type: 'POST',
-		    data: {        
-			   theme :  $('#in_theme').val(),      
-			   cost:  $('#in_cost').val(), 
-			   time:  $('#in_time').val(),    
-			   star:  $('#in_star').val(),
-			   La : $('#La').val(),
-			   Ma : $('#Ma').val(),	   
-			   title: $('#title').val(),
-			   userId : $('#userId').val()
-			  }, // 전송할 데이터   
-		    dataType: 'text', // xml, json, script, html   
-		    success: function(data) {
-		    	console.log(data);
-		    	if(data=='true'){
-		    		alert('등록되었습니다.');
-		    		$('#myModal').modal('hide');
-		    	}else{
-		    		alert('실패했습니다.');
-		    		$('#myModal').modal('hide');
-		    		
-		    	}
-		    }, // 요청 완료 시   
-		    error: function(data) {
-				alert('실패했습니다.');
-	    		$('#myModal').modal('hide');
-		   } // 요청 실패.   
-	}); 
-		  
 	} );
   </script>
 	
