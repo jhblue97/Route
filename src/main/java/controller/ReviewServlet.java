@@ -70,6 +70,8 @@ protected void addReview(HttpServletRequest request) throws ServletException, IO
 		trip.setTheme(request.getParameter("theme"));
 		
 		result = tdao.addTrip(trip);
+		
+		System.out.println("cost---->"+Float.parseFloat(request.getParameter("cost")));
 		int tripno = tdao.getTripNo(request.getParameter("La"),request.getParameter("Ma"));
 			if(result==true) {
 				

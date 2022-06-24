@@ -477,9 +477,9 @@ function removeAllChildNods(el) {
   <script>
   $('#btn_addProc').hide();
   $('#btn_add').click( function() {
-	  
-	if($('#theme_flag').val() =='false'){
 	
+	if($('#theme_flag').val() =='false' || $('#theme_flag').val() =='' ){
+	console.log('fffflase');
 		  var select = '<select class="custom-select" id="in_theme">'
 			   + ' <option value="food" selected >맛집</option>'
 			    + '<option value="place">명소</option>'
@@ -519,7 +519,7 @@ function removeAllChildNods(el) {
 		    type: 'POST',
 		    data: {        
 			   theme :  $('#in_theme').val(),      
-			   cost:  $('#in_cost').val(), 
+			   cost :  $('#in_cost').val(), 
 			   time:  $('#in_time').val(),    
 			   star:  $('#in_star').val(),
 			   La : $('#La').val(),
