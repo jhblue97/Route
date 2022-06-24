@@ -488,15 +488,14 @@ function removeAllChildNods(el) {
 			    + '<option value="cafe">카페</option>'
 			   + '</select>';
 	}else{
-		var text = "";
-		if($('#theme_flag').val()=="food"){
-			text = "맛집";
-		}else if($('#theme_flag').val()=="place"){
-			text = "명소";
-		}else{
-			text = "카페";
-		}
-		  var select = '<input type = "hidden" id="in_theme" value = "'+$('#theme_flag').val()+'" readonly>' +  text;
+		
+		var select = '<select class="custom-select" id="in_theme">'
+			   + ' <option value="food" selected >맛집</option>'
+			    + '<option value="place">명소</option>'
+			    + '<option value="cafe">카페</option>'
+			   + '</select>';
+			   
+		  $("#in_theme").val($('#theme_flag').val()).prop("selected", true);
 		  
 	}
 
