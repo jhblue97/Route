@@ -512,7 +512,6 @@ function removeAllChildNods(el) {
   
   $('#btn_addProc').click( function() {
 	  
-
  	 $.ajax({   
 		   url: '/review/addReview.do', // 요청 할 주소    
 		    async: true, // false 일 경우 동기 요청으로 변경    

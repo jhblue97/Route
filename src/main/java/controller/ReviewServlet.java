@@ -63,6 +63,7 @@ protected void addReview(HttpServletRequest request) throws ServletException, IO
 		result = false;
 		int count = tdao.getTripChk(request.getParameter("La"),request.getParameter("Ma"));
 		if(count==0) {
+			System.out.println("신규트립작성임 "+request.getParameter("theme"));
 		trip = new Trip();
 		trip.setPlace(request.getParameter("title"));
 		trip.setX(request.getParameter("La"));
