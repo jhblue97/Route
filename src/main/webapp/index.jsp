@@ -364,7 +364,20 @@ function displayInfowindow(marker, title) {
     		    	console.log(data);
     		    	var json_p = JSON.parse(data);
     		    	console.log(json_p.cost);
-    		    	$('#theme').text(json_p.theme);
+    		    	
+    				   var theme2 = "";
+    				   if(json_p.theme=='place'){
+    					   theme2 = '명소'; 
+    				   }else if(json_p.theme == 'food'){
+    					   theme2 = '맛집';
+    				   }else if(json_p.theme == 'cafe'){
+    					   theme2 = '카페';
+    				   }else{
+    					   
+    				   }
+    					   $('#theme').text(theme2);
+    	    		    	   
+    					   
     		    	$('#cost').text(json_p.cost);
     		    	$('#time').text(json_p.time);
     		    	$('#star').text(json_p.star);	
