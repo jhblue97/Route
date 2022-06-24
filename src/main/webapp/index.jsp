@@ -482,27 +482,38 @@ function removeAllChildNods(el) {
 	
 	if($('#theme_flag').val() =='false' || $('#theme_flag').val() =='' ){
 	console.log('fffflase');
+	
 		  var select = '<select class="custom-select" id="in_theme">'
 			   + ' <option value="food" selected >맛집</option>'
 			    + '<option value="place">명소</option>'
 			    + '<option value="cafe">카페</option>'
 			   + '</select>';
+		  $('#theme').html(select);
+
+		  $("#in_theme").prop('disabled',false);
+		  
 	}else{
 		
 		var select = '<select class="custom-select" id="in_theme">'
-			   + ' <option value="food" selected >맛집</option>'
+			   + ' <option value="food" >맛집</option>'
 			    + '<option value="place">명소</option>'
 			    + '<option value="cafe">카페</option>'
 			   + '</select>';
-			   
+		  $('#theme').html(select);
+		   
 		  $("#in_theme").val($('#theme_flag').val()).prop("selected", true);
 		  
+		  $("#in_theme").prop('disabled',true);
+
 	}
 
 	  $('#btn_addProc').show();
 	  $('#btn_add').hide();
 	  
-	  $('#theme').html(select);
+
+	  
+	  
+	  
 	  $('#cost').html('<input type = "text" id="in_cost" placeholder="원 단위">');
 	  $('#time').html('<input type = "text" id="in_time">');
 	  $('#star').html('<input type = "text" id="in_star" placeholder="1~5점 사이">');
