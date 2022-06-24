@@ -385,6 +385,8 @@ function displayInfowindow(marker, title) {
     	
     	
     	$('#myModal').modal('show');
+    	  $('#btn_addProc').hide();
+    	  $('#btn_add').show();
     	
   });
     
@@ -497,9 +499,7 @@ function removeAllChildNods(el) {
 		  var select = '<input type = "hidden" id="in_theme" value = "'+$('#theme_flag').val()+'" readonly>' +  text;
 		  
 	}
-	  
-	
-	  
+
 	  $('#btn_addProc').show();
 	  $('#btn_add').hide();
 	  
