@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행공유</title>
+<title>Insert title here</title>
 
 
 <style>
@@ -102,6 +102,10 @@ background-color: bisque;
 <%@ page import="main.java.dto.Users"%>  
 
 <body>
+
+   		<button type="button" class="btn btn-info"    id="btn_tripshare">경로 등록</button>
+   		
+   		
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -123,6 +127,7 @@ background-color: bisque;
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=402685406ebee4655fe582f2104b0865&libraries=services"></script>
 <script>
 
+let tripshare_markers = [];
 
 // 마커를 담을 배열입니다
 var markers = [];
@@ -309,7 +314,7 @@ function displayPagination(pagination) {
         var el = document.createElement('a');
         el.href = "#";
         el.innerHTML = i;
-
+        
         if (i===pagination.current) {
             el.className = 'on';
         } else {
@@ -339,7 +344,7 @@ function displayInfowindow(marker, title) {
 	//  37.53085611757179
 
 	var position = marker.getPosition(); 
-	
+	console.log(position); //
 	console.log(position.La); // 위도
 	console.log(position.Ma); // 경도
 
@@ -349,7 +354,55 @@ function displayInfowindow(marker, title) {
     infowindow.open(map, marker); 
     
     kakao.maps.event.addListener(marker, 'click', function() {
+    	
+    	$('#La').val(position.La);
+    	$('#Ma').val(position.Ma);
+    	$('#title').val(title);
     	$("#myModalLabel" ).text(title +"위도 : "+position.La +"경도 : " + position.Ma);   	
+    	
+    	  $.ajax({   
+    		   url: '/trip/getTrip.do?x='+position.La+"&y="+position.Ma, // 요청 할 주소    
+    		    async: true, // false 일 경우 동기 요청으로 변경    
+    		    type: 'get',
+    		    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    		    dataType: 'text', // xml, json, script, html   
+    		    success: function(data) {
+    		    	console.log(data);
+    		    	var json_p = JSON.parse(data);
+    		    	console.log(json_p.cost);
+    		    	
+    				   var theme2 = "";
+    				   if(json_p.theme=='place'){
+    					   theme2 = '명소'; 
+    				   }else if(json_p.theme == 'food'){
+    					   theme2 = '맛집';
+    				   }else if(json_p.theme == 'cafe'){
+    					   theme2 = '카페';
+    				   }else{
+    					   
+    				   }
+    					   $('#theme').text(theme2);
+    	    		    	   
+    					   
+    		    	$('#cost').text(json_p.cost);
+    		    	$('#time').text(json_p.time);
+    		    	$('#star').text(json_p.star);	
+    		    	
+    		    	if(json_p.theme!=''){
+    		    		$('#theme_flag').val(json_p.theme);
+    		    	}else{
+    		    		$('#theme_flag').val("false");
+    		    	}
+    		    	
+    		    }, // 요청 완료 시   
+    		    error: function(data) {
+    				
+    		   } // 요청 실패.   
+    	}); 
+    	
+    	
+    	
+    	
     	$('#myModal').modal('show');
     	
   });
@@ -398,73 +451,99 @@ function removeAllChildNods(el) {
         <h4 class="modal-title" id="myModalLabel">write</h4>
       </div>
 
-	  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">분류</th>
-      <th scope="col">값</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>테마</td>
-      <td id = "theme"></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>비용</td>
-        <td id = "cost"> </td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>관광소요시간</td>
-      <td id ="time"> </td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>별점</td>
-      <td id = "star"> </td>
-    </tr>
-  </tbody>
-</table> 
-
-   <!-- 	<button type="submit" class="btn btn-info"  data-dismiss="modal"  id="btn_add">후기 등록하기</button> -->
-   	 	<button type="button" class="btn btn-info"    id="btn_add">후기 등록하기</button>
-   		<button type="button" class="btn btn-info"    id="btn_addProc">등록</button>
+<input type = "hidden" id = "theme_flag">
+<input type = "hidden" id = "La">
+<input type = "hidden" id = "Ma">
+<input type = "hidden" id = "title">
+<input type = "hidden" id = "userId" value = "<%=session.getAttribute("userId")%>">
+   <!-- <button type="submit" class="btn btn-info"  data-dismiss="modal"  id="btn_add">후기 등록하기</button> -->
+   		<button type="button" class="btn btn-info"    id="btn_addProc">경로 등록</button>
     </div>
   </div></div>
   
   <script>
-  $('#btn_addProc').hide();
-  $('#btn_add').click( function() {
-	  // function
-	  
-	  $('#btn_addProc').show();
-	  $('#btn_add').hide();
-	  
-	  $('#theme').html('<input type = "text" id="in_theme">');
-	  $('#cost').html('<input type = "text" id="in_cost" placeholder="원 단위">');
-	  $('#time').html('<input type = "text" id="in_time">');
-	  $('#star').html('<input type = "text" id="in_star" placeholder="1~5점 사이">');
-	  
+  
+  
+  $('#btn_tripshare').click( function() {
+	
+	 	
+	 	tripshare_markers.forEach((value, index) => {
+	 		console.log('value : '+value +'index : '+index);
+	 		console.log(tripshare_markers[index].title + ' : '+ tripshare_markers[index].La + ': '+ tripshare_markers[index].Ma);
 	 
-	} );
+	 		});
+	 	
+	 	
+  });
+  
   
   $('#btn_addProc').click( function() {
-	
-	 /* $.ajax ({
-	        "url" : "/Board/json/getBoard.do?num="+recipient,
-	        cache : false,
-	        type:"get", 
-	        dataType: "json",
-	        success : function (data) 	        
-	        {	  	
-	        } 
- 	 });	*/
+	 
+	  var La = $('#La').val();
+	  var Ma = $('#Ma').val();
+	  var title = $('#title').val();
 	  
-	} );
+
+	  var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
+	      imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+	      imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	        
+	  // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+	      markerPosition = new kakao.maps.LatLng(Ma,La); // 마커가 표시될 위치입니다
+
+	  // 마커를 생성합니다
+	  var marker = new kakao.maps.Marker({
+	      position: markerPosition, 
+	      image: markerImage // 마커이미지 설정 
+	  });
+	     
+	  var positions =	{
+		        title: title, 
+		        La: La,
+		        Ma : Ma
+		    };
+
+	  tripshare_markers.push(positions);
+	  // 마커가 지도 위에 표시되도록 설정합니다
+	  marker.setMap(map);  
+	  
+	  
+ 	/* var positions = [
+		
+		    {
+		        title: title, 
+		        latlng: new kakao.maps.LatLng(Ma,La)
+		    }
+		];
+	  
+	  var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	    
+	 	for (var i = 0; i < positions.length; i ++) {
+	      
+	      	// 마커 이미지의 이미지 크기 입니다
+	      	var imageSize = new kakao.maps.Size(24, 35); 
+	      
+	      // 마커 이미지를 생성합니다    
+	     	 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	      
+	      // 마커를 생성합니다
+	    	  var marker = new kakao.maps.Marker({
+	          map: map, // 마커를 표시할 지도
+	          position: positions[i].latlng, // 마커를 표시할 위치
+	          title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+	          image : markerImage // 마커 이미지 
+	     	 });
+	  
+		}
+	 	
+	 	tripshare_markers = tripshare_markers +  positions;
+	 	
+	 	*/
+	 	
+	 	
+	 	$('#myModal').modal('hide');
+  });
   </script>
 	
 <%@ include file="../include/footer.jsp" %>

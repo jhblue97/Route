@@ -42,7 +42,7 @@ public class ReviewDAO {
 
 
 		  System.out.println(query);
-		  
+		  System.out.println(" pstmt.setInt(1,review.getTripNo());"+ review.getTripNo());
 		  try { 
 		  con = DBcon.getConnection(); 
 		  pstmt = con.prepareStatement(query);

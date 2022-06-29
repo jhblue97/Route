@@ -37,7 +37,7 @@ background-color: orangered;
         <a class="nav-link" href="#">여행공유</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">여행경로공유</a>
+        <a class="nav-link" href="/tripshare/tripshare.do">여행경로공유</a>
       </li>
 
       <li class="nav-item dropdown">
