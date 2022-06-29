@@ -467,10 +467,34 @@ function removeAllChildNods(el) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">write</h4>
+        <h4 class="modal-title" id="myModalLabel">여행 등록</h4>
       </div>
-		여행 테마 <input type= "text" id = "title">
+		여행 이름 <input type= "text" id = "title">
 		여행 비용 <input type ="text" id = "cost">
+		여행 시간 <input type="text" id="time">
+		<div class="modal-header">
+		<h3  class="modal-title" id="myModalLabel"> 조건 </h3>
+		</div>
+		<div>
+		성별 <input type="checkbox" name="sex" value="male">남 
+				<input type="checkbox" name="sex" value="female">여
+		</div>
+		<div>
+		나이대 <input type="checkbox" name="age" value="10">10대 
+		<input type="checkbox" name="age" value="20">20대 
+		<input type="checkbox" name="age" value="30">30대 
+		<input type="checkbox" name="age" value="40">40대 
+		<input type="checkbox" name="age" value="50">50대 이상
+		</div>
+		<div>
+		국적 <input type="checkbox" name="nation" value="local">내국인 
+			<input type="checkbox" name="nation" value="foreign">외국인 
+		</div>
+		<div>
+		여행스타일 <input type="checkbox" name="style" value="photo">사진을 많이 찍어요!
+			<input type="checkbox" name="style" value="food">맛집을 많이 가요! 
+			<input type="checkbox" name="style" value="sights">명소를 많이 가요!  
+ 		</div>
  	<button type="button" class="btn btn-info"    id="btn_add_tripshare">등록</button>
     </div>
   </div></div>
@@ -502,7 +526,7 @@ function removeAllChildNods(el) {
 
 	  var imageSrc = '/resources/images/marker' + index + '.png', // 마커이미지의 주소입니다    
 	      imageSize = new kakao.maps.Size(30, 35), // 마커이미지의 크기입니다
-	      imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	      imageOption = {offset: new kakao.maps.Point(14, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 	        
 	  // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 	  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
@@ -527,6 +551,7 @@ function removeAllChildNods(el) {
 	  if(index == 4){
 		  index = 1;
 	  }
+	  
 	  
  	/* var positions = [
 		
@@ -563,6 +588,58 @@ function removeAllChildNods(el) {
 	 	
 	 	$('#myModal').modal('hide');
   });
+  $('#btn_add_tripshare').click( function() {
+	  var sexList = [];
+	  var ageList = [];
+	  var nationList = [];
+	  var styleList = [];
+	//check한 리스트만 받을수 있게  list 생성하고 하나씩 넣음.
+	  $("input[name='sex':checked").each(function(i){
+	  	sexList.push($(this).val());
+	  });
+	  $("input[name='age':checked").each(function(i){
+	  	ageList.push($(this).val());
+	  });
+	  $("input[name='nation':checked").each(function(i){
+	  	nationList.push($(this).val());
+	  });
+	  $("input[name='style':checked").each(function(i){
+	  	styleList.push($(this).val());
+	  });
+		//tripShare2Servlet으로 보낼 생각 하고 있엇어요  
+	 	 $.ajax({   
+			   url: '/tripshare2/addTripshare.do', // 요청 할 주소    
+			    async: true, // false 일 경우 동기 요청으로 변경    
+			    type: 'POST',
+			    data: {        
+				   title : $('#title').val(),      
+				   cost :  $('#cost').val(), 
+				   time:  $('#time').val(),    	 
+				   userId : $('#userId').val(),
+				   sex : sexList,
+				   age : ageList,
+				   nation : nationList,
+				   style : styleList
+				  }, // 전송할 데이터   
+			    dataType: 'text', // xml, json, script, html   
+			    success: function(data) {
+			    	console.log(data);
+			    	if(data=='true'){
+			    		alert('등록되었습니다.');
+			    		$('#myModal').modal('hide');
+			    	}else{
+			    		alert('실패했습니다.');
+			    		$('#myModal').modal('hide');
+			    		
+			    	}
+			    }, // 요청 완료 시   
+			    error: function(data) {
+					alert('실패했습니다.');
+		    		$('#myModal').modal('hide');
+			   } // 요청 실패.   
+		}); 
+			  
+		} );
   </script>
 	
 <%@ include file="../include/footer.jsp" %>
