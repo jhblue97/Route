@@ -461,12 +461,27 @@ function removeAllChildNods(el) {
     </div>
   </div></div>
   
+  
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel">write</h4>
+      </div>
+		여행 테마 <input type= "text" id = "title">
+		여행 비용 <input type ="text" id = "cost">
+ 	<button type="button" class="btn btn-info"    id="btn_add_tripshare">등록</button>
+    </div>
+  </div></div>
+  
+  
   <script>
   
   
   $('#btn_tripshare').click( function() {
 	
-	 	
+	  $('#myModal1').modal('show');
 	 	tripshare_markers.forEach((value, index) => {
 	 		console.log('value : '+value +'index : '+index);
 	 		console.log(tripshare_markers[index].title + ' : '+ tripshare_markers[index].La + ': '+ tripshare_markers[index].Ma);
