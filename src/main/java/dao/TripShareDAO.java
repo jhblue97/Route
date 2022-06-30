@@ -133,7 +133,7 @@ public class TripShareDAO {
 	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
 	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
 	  		+ ", count(b.PARTUSERID) AS count_p "
-	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO WHERE a.USERID  = ? "
+	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO WHERE b.PARTUSERID  = ? "
 	  		+ "GROUP BY a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION "
 	  		+ ", a.\"STYLE\", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE order by a.tripshareno";
 
