@@ -47,6 +47,11 @@ public class TripShare2Servlet extends HttpServlet {
 	}
 	
 	protected void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String cmd = requestURI.substring(contextPath.length());
@@ -56,6 +61,13 @@ public class TripShare2Servlet extends HttpServlet {
 		switch (cmd.split("/")[2]) {	
 		case "tripshare.do" : response.sendRedirect("/tripshare.jsp");	return;	
 		case "addTripshare.do" :  addTripShare(request);  out.print(result); return;
+		case "getTripshare.do" :   
+			
+			
+			request.setAttribute("tripshareNo", request.getParameter("tripshareNo"));		
+			request.getRequestDispatcher("/tripshareView.jsp").forward(request, response);
+			return;
+		
 		}
 		}
 	

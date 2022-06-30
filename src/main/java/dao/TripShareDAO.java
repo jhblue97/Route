@@ -176,8 +176,8 @@ public class TripShareDAO {
 	  }
 	  return tripShareList; 
 	  }
-  public List<TripShareVO> getTripShare(int tripshareNo) {
-	  List<TripShareVO> tripShareList = new ArrayList<>();
+  public TripShareVO getTripShare(int tripshareNo) {
+	  TripShareVO tripShareList = new TripShareVO();
 	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
 	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
 	  		+ ", count(b.PARTUSERID) AS count_p "
@@ -216,7 +216,6 @@ public class TripShareDAO {
 		  ts.setTheme(rs.getString(19));
 		  ts.setTripdate(rs.getString(20)); 
 		  ts.setPartcipant(rs.getInt(21));
-		  tripShareList.add(ts);
 	  }
 	  }catch (SQLException e) { // TODO Auto-generated catch block
 	  e.printStackTrace(); } finally { DBcon.close(pstmt);
