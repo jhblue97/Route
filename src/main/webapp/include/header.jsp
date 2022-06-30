@@ -50,7 +50,7 @@ background-color: orangered;
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href = "/logout.jsp">로그아웃</a>
           <a class="dropdown-item" href="#">회원탈퇴</a>
-          <a class="dropdown-item" href="#">내가 참가한 여행 목록</a>
+          <a class="dropdown-item" href="/tripshare3/myTripshare.do">내가 참가한 여행 목록</a>
         </div>
       </li>
       

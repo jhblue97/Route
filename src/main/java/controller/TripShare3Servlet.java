@@ -56,6 +56,16 @@ public class TripShare3Servlet extends HttpServlet {
 			RequestDispatcher dispatch = request.getRequestDispatcher("/tripList.jsp");
 			dispatch.forward(request, response);	
 			return;	
+		case "myTripshare.do" :
+			session = request.getSession();
+			String userId = (String) session.getAttribute("userId");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			System.out.println("test ::: "+ ts.myTripShare(userId).size());
+			request.setAttribute("tripList", ts.myTripShare(userId));
+	
+			RequestDispatcher dispatch2 = request.getRequestDispatcher("/myTripList.jsp");
+			dispatch2.forward(request, response);	
 		}
 		}
 	
