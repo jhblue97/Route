@@ -118,12 +118,12 @@ background-color: bisque;
 		<th>참가자</th>
 		<th>날짜</th>
 	</tr>
-	<c:forEach var="tsList" items="${ tripList }" varStatus="status" >
+	<c:forEach var="tsList" items="${ tripList }" >
 		<tr>
-			<td>${ status.count }</td>
+			<td>${ tsList.tripshareNo }</td>
 			<td><c:out value="${ tsList.userId }" /></td>
-			<td><c:out value="${ tsList.theme }" /></td>
-			<td><c:out value="${ tsList.partcipant }" /></td>
+			<td><a href="/tripshare2/getTripshare.do?tripshareNo=${tsList.tripshareNo}">${ tsList.theme }</a></td>
+			<td><c:out value="${ tsList.partcipant} / ${ tsList.totalPartcipant } " /></td>
 			<td><c:out value="${ tsList.tripdate }" /></td> 
 		</tr>
 	</c:forEach> 

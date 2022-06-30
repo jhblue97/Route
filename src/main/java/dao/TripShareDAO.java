@@ -8,11 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.dto.Trip;
 import main.java.dto.TripShare;
-import main.java.dto.Users;
 import main.java.util.DBcon;
-import main.java.vo.TripVO;
+import main.java.vo.TripShareVO;
 
 
 
@@ -82,9 +80,14 @@ public class TripShareDAO {
 		  }
 		  return result; 
 		  }
-  public List<TripShare> getAllTripShare() {
-	  List<TripShare> tripShareList = new ArrayList<>();
-	  query = "SELECT * FROM DEV.TRIPSHARE";
+  public List<TripShareVO> getAllTripShare() {
+	  List<TripShareVO> tripShareList = new ArrayList<>();
+	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
+	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
+	  		+ ", count(b.PARTUSERID) AS count_p "
+	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO  "
+	  		+ "GROUP BY a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION "
+	  		+ ", a.\"STYLE\", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE order by a.tripshareno";
 
 	  System.out.println(query);
 	  
@@ -94,11 +97,11 @@ public class TripShareDAO {
 	  pstmt = con.prepareStatement(query);
 	  ResultSet rs = pstmt.executeQuery();
 	  while(rs.next()) {
-		  TripShare ts = new TripShare();
+		  TripShareVO ts = new TripShareVO();
 		  ts.setTripshareNo(rs.getInt(1)); 
 		  ts.setUserId(rs.getString(2));
 		  ts.setCost(rs.getInt(3));
-		  ts.setPartcipant(rs.getInt(4));
+		  ts.setTotalPartcipant(rs.getInt(4));
 		  ts.setTime(rs.getInt(5));
 		  ts.setSex(rs.getString(6));
 		  ts.setAge(rs.getString(7));
@@ -115,6 +118,104 @@ public class TripShareDAO {
 		  ts.setTitle3(rs.getString(18));
 		  ts.setTheme(rs.getString(19));
 		  ts.setTripdate(rs.getString(20)); 
+		  ts.setPartcipant(rs.getInt(21));
+		  tripShareList.add(ts);
+	  }
+	  }catch (SQLException e) { // TODO Auto-generated catch block
+	  e.printStackTrace(); } finally { DBcon.close(pstmt);
+	  
+	  }
+	  return tripShareList; 
+	  }
+
+  public List<TripShareVO> myTripShare(String userId) {
+	  List<TripShareVO> tripShareList = new ArrayList<>();
+	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
+	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
+	  		+ ", count(b.PARTUSERID) AS count_p "
+	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO WHERE a.USERID  = ? "
+	  		+ "GROUP BY a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION "
+	  		+ ", a.\"STYLE\", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE order by a.tripshareno";
+
+	  System.out.println(query);
+	  
+	  try { 
+	
+	  con = DBcon.getConnection(); 
+	  pstmt = con.prepareStatement(query);
+	  pstmt.setString(1,userId); 
+	  ResultSet rs = pstmt.executeQuery();
+	  while(rs.next()) {
+		  TripShareVO ts = new TripShareVO();
+		  ts.setTripshareNo(rs.getInt(1)); 
+		  ts.setUserId(rs.getString(2));
+		  ts.setCost(rs.getInt(3));
+		  ts.setTotalPartcipant(rs.getInt(4));
+		  ts.setTime(rs.getInt(5));
+		  ts.setSex(rs.getString(6));
+		  ts.setAge(rs.getString(7));
+		  ts.setNation(rs.getString(8));
+		  ts.setStyle(rs.getString(9));
+		  ts.setX1(rs.getFloat(10));
+		  ts.setX2(rs.getFloat(11));
+		  ts.setX3(rs.getFloat(12));
+		  ts.setY1(rs.getFloat(13));
+		  ts.setY2(rs.getFloat(14));
+		  ts.setY3(rs.getFloat(15));
+		  ts.setTitle1(rs.getString(16));
+		  ts.setTitle2(rs.getString(17));
+		  ts.setTitle3(rs.getString(18));
+		  ts.setTheme(rs.getString(19));
+		  ts.setTripdate(rs.getString(20)); 
+		  ts.setPartcipant(rs.getInt(21));
+		  tripShareList.add(ts);
+	  }
+	  }catch (SQLException e) { // TODO Auto-generated catch block
+	  e.printStackTrace(); } finally { DBcon.close(pstmt);
+	  
+	  }
+	  return tripShareList; 
+	  }
+  public List<TripShareVO> getTripShare(int tripshareNo) {
+	  List<TripShareVO> tripShareList = new ArrayList<>();
+	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
+	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
+	  		+ ", count(b.PARTUSERID) AS count_p "
+	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO WHERE a.TRIPSHARENO  = ? "
+	  		+ "GROUP BY a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION "
+	  		+ ", a.\"STYLE\", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE order by a.tripshareno";
+
+	  System.out.println(query);
+	  
+	  try { 
+	
+	  con = DBcon.getConnection(); 
+	  pstmt = con.prepareStatement(query);
+	  pstmt.setInt(1,tripshareNo); 
+	  ResultSet rs = pstmt.executeQuery();
+	  while(rs.next()) {
+		  TripShareVO ts = new TripShareVO();
+		  ts.setTripshareNo(rs.getInt(1)); 
+		  ts.setUserId(rs.getString(2));
+		  ts.setCost(rs.getInt(3));
+		  ts.setTotalPartcipant(rs.getInt(4));
+		  ts.setTime(rs.getInt(5));
+		  ts.setSex(rs.getString(6));
+		  ts.setAge(rs.getString(7));
+		  ts.setNation(rs.getString(8));
+		  ts.setStyle(rs.getString(9));
+		  ts.setX1(rs.getFloat(10));
+		  ts.setX2(rs.getFloat(11));
+		  ts.setX3(rs.getFloat(12));
+		  ts.setY1(rs.getFloat(13));
+		  ts.setY2(rs.getFloat(14));
+		  ts.setY3(rs.getFloat(15));
+		  ts.setTitle1(rs.getString(16));
+		  ts.setTitle2(rs.getString(17));
+		  ts.setTitle3(rs.getString(18));
+		  ts.setTheme(rs.getString(19));
+		  ts.setTripdate(rs.getString(20)); 
+		  ts.setPartcipant(rs.getInt(21));
 		  tripShareList.add(ts);
 	  }
 	  }catch (SQLException e) { // TODO Auto-generated catch block
