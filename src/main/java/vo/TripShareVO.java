@@ -148,6 +148,14 @@ public class TripShareVO {
 	public void setPartcipant(int partcipant) {
 		this.partcipant = partcipant;
 	}
+	@Override
+	public String toString() {
+		return "TripShareVO [tripshareNo=" + tripshareNo + ", userId=" + userId + ", cost=" + cost
+				+ ", totalPartcipant=" + totalPartcipant + ", time=" + time + ", sex=" + sex + ", age=" + age
+				+ ", nation=" + nation + ", style=" + style + ", x1=" + x1 + ", x2=" + x2 + ", x3=" + x3 + ", y1=" + y1
+				+ ", y2=" + y2 + ", y3=" + y3 + ", title1=" + title1 + ", title2=" + title2 + ", title3=" + title3
+				+ ", theme=" + theme + ", tripdate=" + tripdate + ", partcipant=" + partcipant + "]";
+	}
 	
 	
 }

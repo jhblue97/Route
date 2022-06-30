@@ -15,9 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import main.java.dao.ParticipantDAO;
 import main.java.dao.TripDAO;
 import main.java.dao.TripShareDAO;
 import main.java.dao.UserDAO;
+import main.java.dto.Participant;
 import main.java.dto.Trip;
 import main.java.dto.TripShare;
 import main.java.dto.Users;
@@ -36,6 +38,8 @@ public class ParticipantServlet extends HttpServlet {
 	private String url;
 	private boolean result;
 	private JSONObject data;
+	private Participant part;
+	private ParticipantDAO partdao;
 	//private TripShareDAO 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,23 +55,28 @@ public class ParticipantServlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String cmd = requestURI.substring(contextPath.length());
 		PrintWriter out = response.getWriter();
-		tsdao = new TripShareDAO();
+		partdao = new ParticipantDAO();
 		
-		switch (cmd.split("/")[2]) {	
-		case "addParticipant.do" :  addParticipant(request);  out.print(result); return;
-		}
+			switch (cmd.split("/")[2]) {	
+			case "addParticipant.do" :  addParticipant(request);  response.sendRedirect("/tripshare3/tripshare.do?result="+result); return;
+			}
 		}
 	
 	
 	protected void addParticipant(HttpServletRequest request) {
-		System.out.println("일로오나?ddd");
+		part = new Participant();
 		result = false;
-		tripshare = new TripShare();
-		result = 	tsdao.addTripShare(tripshare);
-		
-		
+		System.out.println("일로오나?fp");
+
 		
 		System.out.println("result :: "+result);
+		
+		part.setPartuserId(request.getParameter("partuserId"));
+		part.setTripshareNo(Integer.parseInt(request.getParameter("tripshareNo")));
+		
+		result = partdao.addParticipant(part);
+		
+		
 		
 	}
 

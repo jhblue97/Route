@@ -21,6 +21,7 @@ import main.java.dao.UserDAO;
 import main.java.dto.Trip;
 import main.java.dto.TripShare;
 import main.java.dto.Users;
+import main.java.vo.TripShareVO;
 import main.java.vo.TripVO;
 
 /**
@@ -36,6 +37,7 @@ public class TripShare2Servlet extends HttpServlet {
 	private String url;
 	private boolean result;
 	private JSONObject data;
+	private TripShareVO tripsharevo;
 	//private TripShareDAO 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,15 +63,24 @@ public class TripShare2Servlet extends HttpServlet {
 		switch (cmd.split("/")[2]) {	
 		case "tripshare.do" : response.sendRedirect("/tripshare.jsp");	return;	
 		case "addTripshare.do" :  addTripShare(request);  out.print(result); return;
-		case "getTripshare.do" :   
-			
-			
-			request.setAttribute("tripshareNo", request.getParameter("tripshareNo"));		
+		case "getTripshare.do" :   getTripShare(request.getParameter("tripshareNo"));
+			request.setAttribute("tripsharevo", tripsharevo);
 			request.getRequestDispatcher("/tripshareView.jsp").forward(request, response);
 			return;
 		
 		}
-		}
+	}
+	
+	protected void getTripShare(String tripshareNo) {
+	
+		tripsharevo = new TripShareVO();
+		
+		tripsharevo = tsdao.getTripShare(Integer.parseInt(tripshareNo));
+		System.out.println(tripsharevo);
+		
+		
+	}
+	
 	
 	
 	protected void addTripShare(HttpServletRequest request) {

@@ -128,6 +128,12 @@ background-color: bisque;
 		</tr>
 	</c:forEach> 
 </table>
+
+<% if(request.getParameter("result") != null){if(request.getParameter("result").equals("true")){  %>
+<script> alert('등록되었습니다');</script>
+<%} else if(request.getParameter("result").equals("false")){%>
+<script>alert('등록실패했습니다.');</script>
+<%} }%>
 <%@ include file="../include/footer.jsp" %>
 </body>
 </html>

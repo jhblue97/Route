@@ -130,12 +130,11 @@ public class TripShareDAO {
 
   public List<TripShareVO> myTripShare(String userId) {
 	  List<TripShareVO> tripShareList = new ArrayList<>();
-	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
-	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
-	  		+ ", count(b.PARTUSERID) AS count_p "
-	  		+ "FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO WHERE b.PARTUSERID  = ? "
-	  		+ "GROUP BY a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION "
-	  		+ ", a.\"STYLE\", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE order by a.tripshareno";
+	  query =  "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION " 
+			   +  " , a.\"STYLE\" , a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1 "
+			  + " , a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE , (SELECT count(*) FROM PARTICIPANT WHERE TRIPSHARENO = a.TRIPSHARENO) "
+			   + " FROM DEV.TRIPSHARE a LEFT OUTER JOIN DEV.PARTICIPANT b ON a.TRIPSHARENO = b.TRIPSHARENO  "
+			   +  " WHERE b.PARTUSERID = ? ";
 
 	  System.out.println(query);
 	  
@@ -177,7 +176,7 @@ public class TripShareDAO {
 	  return tripShareList; 
 	  }
   public TripShareVO getTripShare(int tripshareNo) {
-	  TripShareVO tripShareList = new TripShareVO();
+	  TripShareVO ts = new TripShareVO();
 	  query = "SELECT a.TRIPSHARENO, a.USERID, a.COST, a.PARTICIPANT, a.\"TIME\", a.SEX, a.AGE, a.NATION, a.\"STYLE\" "
 	  		+ ", a.X1, a.X2,a.X3, a.Y1, a.Y2, a.Y3, a.TITLE1, a.TITLE2, a.TITLE3, a.THEME, a.TRIPDATE "
 	  		+ ", count(b.PARTUSERID) AS count_p "
@@ -194,7 +193,7 @@ public class TripShareDAO {
 	  pstmt.setInt(1,tripshareNo); 
 	  ResultSet rs = pstmt.executeQuery();
 	  while(rs.next()) {
-		  TripShareVO ts = new TripShareVO();
+		
 		  ts.setTripshareNo(rs.getInt(1)); 
 		  ts.setUserId(rs.getString(2));
 		  ts.setCost(rs.getInt(3));
@@ -221,7 +220,7 @@ public class TripShareDAO {
 	  e.printStackTrace(); } finally { DBcon.close(pstmt);
 	  
 	  }
-	  return tripShareList; 
+	  return ts; 
 	  }
 
   
