@@ -469,9 +469,24 @@ function removeAllChildNods(el) {
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
         <h4 class="modal-title" id="myModalLabel">여행 등록</h4>
       </div>
-		여행 이름 <input type= "text" id = "title">
+		여행 이름 <input type= "text" id = "theme">
 		여행 비용 <input type ="text" id = "cost">
 		여행 시간 <input type="text" id="time">
+		인원수 <input type="text" id="partcipant">
+		
+		
+		<input type= "hidden" id = "x1">
+		<input type= "hidden" id = "x2">
+		<input type= "hidden" id = "x3">
+		
+		<input type= "hidden" id = "y1">
+		<input type= "hidden" id = "y2">
+		<input type= "hidden" id = "y3">
+		
+		<input type= "hidden" id = "title1">
+		<input type= "hidden" id = "title2">
+		<input type= "hidden" id = "title3">
+		
 		<div class="modal-header">
 		<h3  class="modal-title" id="myModalLabel"> 조건 </h3>
 		</div>
@@ -507,11 +522,41 @@ function removeAllChildNods(el) {
 	
 	  $('#myModal1').modal('show');
 	 	tripshare_markers.forEach((value, index) => {
+	 		var la = tripshare_markers[index].La;
+	 		var ma = tripshare_markers[index].Ma;
+	 		var title = tripshare_markers[index].title;
+	 		
+	 		
 	 		console.log('value : '+value +'index : '+index);
-	 		console.log(tripshare_markers[index].title + ' : '+ tripshare_markers[index].La + ': '+ tripshare_markers[index].Ma);
-	 
+	 		//console.log(tripshare_markers[index].title + ' : '+ tripshare_markers[index].La + ': '+ tripshare_markers[index].Ma);
+	 		console.log(title + ' : '+ la + ': '+ ma);
+	 		
+			++index;
+			
+	 		$('#x'+(index)).val(la);
+	 		$('#y'+(index)).val(ma);
+	 		$('#title'+(index)).val(title);
+	 		
 	 		});
 	 	
+	 	
+	 	/*var i = (++index);
+ 		
+ 		$('#x'+(i)).val(tripshare_markers[index].La);
+ 		$('#y'+(i)).val(tripshare_markers[index].La);
+ 		$('#title'+(i)).val(tripshare_markers[index].La);
+ 		
+ 		var ii = (++i);
+ 		
+ 		$('#x'+(ii)).val(tripshare_markers[index].La);
+ 		$('#y'+(ii)).val(tripshare_markers[index].La);
+ 		$('#title'+(ii)).val(tripshare_markers[index].La);
+ 		
+ 		var iii = (++ii);
+ 		
+ 		$('#x'+(iii)).val(tripshare_markers[index].La);
+ 		$('#y'+(iii)).val(tripshare_markers[index].La);
+ 		$('#title'+(iii)).val(tripshare_markers[index].La);*/
 	 	
   });
   
@@ -539,7 +584,7 @@ function removeAllChildNods(el) {
 	  });
 	     
 	  var positions =	{
-		        title: title, 
+			  title: title, 
 		        La: La,
 		        Ma : Ma
 		    };
@@ -594,34 +639,54 @@ function removeAllChildNods(el) {
 	  var nationList = [];
 	  var styleList = [];
 	//check한 리스트만 받을수 있게  list 생성하고 하나씩 넣음.
-	  $("input[name='sex':checked").each(function(i){
+	  $("input[name='sex']:checked").each(function(i){
 	  	sexList.push($(this).val());
 	  });
-	  $("input[name='age':checked").each(function(i){
+	  $("input[name='age']:checked").each(function(i){
 	  	ageList.push($(this).val());
 	  });
-	  $("input[name='nation':checked").each(function(i){
+	  $("input[name='nation']:checked").each(function(i){
 	  	nationList.push($(this).val());
 	  });
-	  $("input[name='style':checked").each(function(i){
+	  $("input[name='style']:checked").each(function(i){
 	  	styleList.push($(this).val());
 	  });
+	  
+	  console.log('styleList : '+styleList);
 		//tripShare2Servlet으로 보낼 생각 하고 있엇어요  
 	 	 $.ajax({   
 			   url: '/tripshare2/addTripshare.do', // 요청 할 주소    
-			    async: true, // false 일 경우 동기 요청으로 변경    
+			    async: true, // false 일 경우 동기 요청으로 변경  
+			    traditional: true,  
 			    type: 'POST',
 			    data: {        
-				   title : $('#title').val(),      
 				   cost :  $('#cost').val(), 
 				   time:  $('#time').val(),    	 
+				   partcipant : $('#partcipant').val(),
+			  
 				   userId : $('#userId').val(),
 				   sex : sexList,
 				   age : ageList,
 				   nation : nationList,
-				   style : styleList
+				   style : styleList,
+				   
+				   x1 : $('#x1').val(), 
+				   x2 : $('#x2').val(), 
+				   x3 : $('#x3').val(), 
+				   
+				   y1 : $('#y1').val(), 
+				   y2 : $('#y2').val(), 
+				   y3 : $('#y3').val(), 
+				   
+				   title1 : $('#title1').val(), 
+				   title2 : $('#title2').val(), 
+				   title3 : $('#title3').val(), 
+				   
+				   theme : $('#theme').val()
+				   
+				   
 				  }, // 전송할 데이터   
-			    dataType: 'text', // xml, json, script, html   
+			    dataType: 'json', // xml, json, script, html   
 			    success: function(data) {
 			    	console.log(data);
 			    	if(data=='true'){
@@ -639,7 +704,7 @@ function removeAllChildNods(el) {
 			   } // 요청 실패.   
 		}); 
 			  
-		} );
+		});
   </script>
 	
 <%@ include file="../include/footer.jsp" %>
