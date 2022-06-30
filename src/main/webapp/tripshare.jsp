@@ -473,10 +473,7 @@ function removeAllChildNods(el) {
 		여행 비용 <input type ="text" id = "cost">
 		여행 시간 <input type="text" id="time">
 		인원수 <input type="text" id="partcipant">
-		
-
-		<label class="col-sm-1 mr-5">여행날짜</label>
-		<input type="date" name="tripdate" id="tripdate" class="form-control" required>
+		여행날짜<input type="date" name="tripdate" id="tripdate" class="form-control" required>
 		
 				
 		<input type= "hidden" id = "x1">
