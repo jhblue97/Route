@@ -130,9 +130,9 @@ background-color: bisque;
 </table>
 
 <% if(request.getParameter("result") != null){if(request.getParameter("result").equals("true")){  %>
-<script> alert('등록되었습니다');</script>
+<script> alert('등록되었습니다'); window.location = window.location.pathname; </script>
 <%} else if(request.getParameter("result").equals("false")){%>
-<script>alert('등록실패했습니다.');</script>
+<script>alert('등록실패했습니다.'); window.location = window.location.pathname; </script>
 <%} }%>
 <%@ include file="../include/footer.jsp" %>
 </body>
