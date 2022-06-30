@@ -39,6 +39,9 @@ background-color: orangered;
       <li class="nav-item">
         <a class="nav-link" href="/tripshare/tripshare.do">여행경로공유</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/tripshare3/tripshare.do">여행목록</a>
+      </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

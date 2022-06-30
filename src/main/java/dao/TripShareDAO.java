@@ -82,6 +82,47 @@ public class TripShareDAO {
 		  }
 		  return result; 
 		  }
-  
+  public List<TripShare> getAllTripShare() {
+	  List<TripShare> tripShareList = new ArrayList<>();
+	  query = "SELECT * FROM DEV.TRIPSHARE";
+
+	  System.out.println(query);
+	  
+	  try { 
+	
+	  con = DBcon.getConnection(); 
+	  pstmt = con.prepareStatement(query);
+	  ResultSet rs = pstmt.executeQuery();
+	  while(rs.next()) {
+		  TripShare ts = new TripShare();
+		  ts.setTripshareNo(rs.getInt(1)); 
+		  ts.setUserId(rs.getString(2));
+		  ts.setCost(rs.getInt(3));
+		  ts.setPartcipant(rs.getInt(4));
+		  ts.setTime(rs.getInt(5));
+		  ts.setSex(rs.getString(6));
+		  ts.setAge(rs.getString(7));
+		  ts.setNation(rs.getString(8));
+		  ts.setStyle(rs.getString(9));
+		  ts.setX1(rs.getFloat(10));
+		  ts.setX2(rs.getFloat(11));
+		  ts.setX3(rs.getFloat(12));
+		  ts.setY1(rs.getFloat(13));
+		  ts.setY2(rs.getFloat(14));
+		  ts.setY3(rs.getFloat(15));
+		  ts.setTitle1(rs.getString(16));
+		  ts.setTitle2(rs.getString(17));
+		  ts.setTitle3(rs.getString(18));
+		  ts.setTheme(rs.getString(19));
+		  ts.setTripdate(rs.getString(20)); 
+		  tripShareList.add(ts);
+	  }
+	  }catch (SQLException e) { // TODO Auto-generated catch block
+	  e.printStackTrace(); } finally { DBcon.close(pstmt);
+	  
+	  }
+	  return tripShareList; 
+	  }
+
   
 	}
