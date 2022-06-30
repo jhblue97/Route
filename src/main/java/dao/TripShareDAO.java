@@ -38,8 +38,8 @@ public class TripShareDAO {
 	  
 		  query =
 				 "  INSERT INTO DEV.TRIPSHARE "
-				 + " (TRIPSHARENO, USERID, COST, PARTICIPANT, \"TIME\", SEX, AGE, NATION, \"STYLE\", X1, X2, X3, Y1, Y2, Y3, TITLE1,TITLE2,TITLE3,THEME) "
-				  + " VALUES(TRIPSHARENO_SEQ.nextval, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?,?,?)";
+				 + " (TRIPSHARENO, USERID, COST, PARTICIPANT, \"TIME\", SEX, AGE, NATION, \"STYLE\", X1, X2, X3, Y1, Y2, Y3, TITLE1,TITLE2,TITLE3,THEME,TRIPDATE) "
+				  + " VALUES(TRIPSHARENO_SEQ.nextval, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?,?,?,?)";
 
 
 		  System.out.println(query);
@@ -65,7 +65,7 @@ public class TripShareDAO {
 		  pstmt.setString(16,trip.getTitle2()); 
 		  pstmt.setString(17,trip.getTitle3()); 
 		  pstmt.setString(18,trip.getTheme()); 
-		  
+		  pstmt.setString(19,trip.getTripdate()); 
 		  
 		  if(pstmt.executeUpdate()==1) { 
 			   System.out.println("insert ok"); 

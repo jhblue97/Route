@@ -95,7 +95,7 @@ public class TripShare2Servlet extends HttpServlet {
 		tripshare.setTitle2(request.getParameter("title2"));
 		tripshare.setTitle3(request.getParameter("title3"));
 		tripshare.setTheme(request.getParameter("theme"));
-		
+		tripshare.setTripdate(request.getParameter("tripdate"));
 		System.out.println(tripshare.toString());
 		
 

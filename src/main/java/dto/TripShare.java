@@ -21,6 +21,8 @@ public class TripShare {
 	private String title2;
 	private String title3;
 	private String theme;
+	private String tripdate;
+	
 	public int getTripshareNo() {
 		return tripshareNo;
 	}
@@ -135,13 +137,23 @@ public class TripShare {
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
+	
+	public String getTripdate() {
+		return tripdate;
+	}
+	public void setTripdate(String tripdate) {
+		this.tripdate = tripdate;
+	}
 	@Override
 	public String toString() {
 		return "TripShare [tripshareNo=" + tripshareNo + ", userId=" + userId + ", cost=" + cost + ", partcipant="
 				+ partcipant + ", time=" + time + ", sex=" + sex + ", age=" + age + ", nation=" + nation + ", style="
 				+ style + ", x1=" + x1 + ", x2=" + x2 + ", x3=" + x3 + ", y1=" + y1 + ", y2=" + y2 + ", y3=" + y3
-				+ ", title1=" + title1 + ", title2=" + title2 + ", title3=" + title3 + ", theme=" + theme + "]";
+				+ ", title1=" + title1 + ", title2=" + title2 + ", title3=" + title3 + ", theme=" + theme
+				+ ", tripdate=" + tripdate + "]";
 	}
+
+	
 
 
 	

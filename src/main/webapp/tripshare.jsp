@@ -474,7 +474,11 @@ function removeAllChildNods(el) {
 		여행 시간 <input type="text" id="time">
 		인원수 <input type="text" id="partcipant">
 		
+
+		<label class="col-sm-1 mr-5">여행날짜</label>
+		<input type="date" name="tripdate" id="tripdate" class="form-control" required>
 		
+				
 		<input type= "hidden" id = "x1">
 		<input type= "hidden" id = "x2">
 		<input type= "hidden" id = "x3">
@@ -682,14 +686,14 @@ function removeAllChildNods(el) {
 				   title2 : $('#title2').val(), 
 				   title3 : $('#title3').val(), 
 				   
-				   theme : $('#theme').val()
-				   
-				   
+				   theme : $('#theme').val(),
+				   tripdate : $('#tripdate').val()
+
 				  }, // 전송할 데이터   
 			    dataType: 'json', // xml, json, script, html   
 			    success: function(data) {
 			    	console.log(data);
-			    	if(data=='true'){
+			    	if(data=='true' || data ==true){
 			    		alert('등록되었습니다.');
 			    		$('#myModal').modal('hide');
 			    	}else{
