@@ -34,7 +34,7 @@ background-color: orangered;
       </li>
       <% if(session.getAttribute("userName")!=null){ %>
          <li class="nav-item">
-        <a class="nav-link" href="#">여행공유</a>
+        <a class="nav-link" href="/placeShare.jsp">여행지공유</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/tripshare/tripshare.do">여행경로공유</a>

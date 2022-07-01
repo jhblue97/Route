@@ -157,6 +157,10 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
 		</div>	
 	<div id="map" style="width:100%;height:350px;"></div>
 	
+	
+	<iframe src="https://map.kakao.com/?sName=${tripsharevo.title1}&eName=${tripsharevo.title2}" style="width:100%; height:300px"></iframe>
+	
+	
 		<div class="form-group row">
 			<div class="col-sm-offset-2 col-sm-10">
 			<input type="button" class="btn btn-secondary" value="돌아가기" onclick="history.back()">
@@ -204,7 +208,7 @@ var positions = [
 	    }   	
 	    	,{
 	    		content:title3, 
-		        latlng: new kakao.maps.LatLng(y3,y2)
+		        latlng: new kakao.maps.LatLng(y3,x3)
 		    }
 ];
 
@@ -243,8 +247,7 @@ function makeOutListener(infowindow) {
 
 </script>
 
-  
-  
+
 	
 <%@ include file="../include/footer.jsp" %>
 </body>

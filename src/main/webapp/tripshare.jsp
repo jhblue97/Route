@@ -103,7 +103,7 @@ background-color: bisque;
 
 <body>
 
-   		<button type="button" class="btn btn-info"    id="btn_tripshare">경로 등록</button>
+   		<button type="button" class="btn btn-info"    id="btn_tripshare">여행 공유</button>
    		
    		
 <div class="map_wrap">
