@@ -90,6 +90,20 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
 <form action="/participant/addParticipant.do"
 		  class="form-horizontal" method="post"  id="addMemberFrm" accept-charset="UTF-8">
 
+ <%
+  String session_userId = session.getAttribute("userId")+"";
+ pageContext.setAttribute("session_userId", session_userId);
+ %>
+		<div class="form-group row">
+			<div class="col-sm-offset-2 col-sm-10"> 
+			<input type="button" class="btn btn-secondary" value="돌아가기" onclick="history.back()">
+			<input type="submit" class="btn btn-info" value="참여하기">  	
+			<c:if test="${tripsharevo.userId == session_userId}">
+				<input type="button" class="btn btn-danger" id = "delete" value="삭제"> 	
+			  </c:if>
+				</div></div>	
+				
+				
 <input type = "hidden"  name = "partuserId" id = "partuserId" value = "<%=session.getAttribute("userId")%>">
 	<input type="hidden" name="tripshareNo" id="tripshareNo" value = "${tripsharevo.tripshareNo}" readonly>
 	
@@ -101,7 +115,7 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
 		</div>	   
 	 
 		<div class="form-group row">
-			<label class="col-sm-2">여행 테마</label>
+			<label class="col-sm-2">여행 경로이름</label>
 			<div class="col-sm-3">
 				<input type="text" name="theme" id="theme" value =" ${tripsharevo.theme}" readonly>
 			</div>
@@ -128,16 +142,25 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
 			</div>
 		</div>	 
 		
+		 <c:set var="total" value = ""/>
+			<c:set var="tel" value="${fn:split(tripsharevo.style,',')}" />
+			<c:forEach var="telNum" items="${tel}" varStatus="g">   
+  				 <c:if test="${telNum eq 'photo'}">   <c:set var="total" value="${total +=  '사진을 많이 찍어요!   '  }"/>   </c:if>      
+ 				 <c:if test="${telNum eq 'food'}">   <c:set var="total" value="${total +=   '맛집을 많이 가요!   '  }"/>    </c:if>    
+ 				 <c:if test="${telNum eq 'sights'}">  <c:set var="total" value="${total +=   '명소를 많이가요!   '  }"/>  </c:if>        			
+ 				<%-- <c:if test="${g.last}">-${telNum}</c:if> --%> 
+ 			</c:forEach> 
 			<div class="form-group row">
 			<label class="col-sm-2">스타일 </label>
 			<div class="col-sm-3">
-				<input type="text" name="style" id="style" value ="${tripsharevo.style}" readonly>
+				<textarea rows="5" cols="50" name="style" id="style" class="form-control" readonly>${total}</textarea>
+			
 			</div>
 		</div>	
 		
 			<div class="form-group row">
 			<label class="col-sm-2">국적 </label>
-			<div class="col-sm-3">
+			<div class="col-sm-3">				
 				<input type="text" name="nation" id="nation" value ="${tripsharevo.nation}" readonly>
 			</div>
 		</div>	
@@ -158,15 +181,9 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
 	<div id="map" style="width:100%;height:350px;"></div>
 	
 	
-	<iframe src="https://map.kakao.com/?sName=${tripsharevo.title1}&eName=${tripsharevo.title2}" style="width:100%; height:300px"></iframe>
-	
-	
-		<div class="form-group row">
-			<div class="col-sm-offset-2 col-sm-10">
-			<input type="button" class="btn btn-secondary" value="돌아가기" onclick="history.back()">
-			<input type="submit" class="btn btn-info" value="참여하기"> 	
-			
-				</div></div>						
+<%-- 	<iframe src="https://map.kakao.com/?sName=${tripsharevo.title1}&eName=${tripsharevo.title2}" style="width:100%; height:300px"></iframe>
+ --%>	
+					
 	 </form>
 	 
 
@@ -174,7 +191,14 @@ System.out.println("no :: "+request.getParameter("tripshareNo"));
   
 <script>
 
+$('#delete').on('click',function(){ 
+	
+	location.href = '/deleteTripshareViewProc.jsp?tripshareno='+$('#tripshareNo').val();
+	
+});
 
+
+let index = 1;
 var x1 = ${tripsharevo.x1};
 var x2 = ${tripsharevo.x2};
 var x3 = ${tripsharevo.x3};
@@ -192,7 +216,8 @@ var title3 = '${tripsharevo.title3}';
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
         center: new kakao.maps.LatLng(y1, x1), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        level: 3// 지도의 확대 레벨
+       
     };
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -216,11 +241,22 @@ var positions = [
 
 for (var i = 0; i < positions.length; i ++) {
     
-	
+	var imageSrc = '/resources/images/marker' + index + '.png', // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(30, 35), // 마커이미지의 크기입니다
+    imageOption = {offset: new kakao.maps.Point(14, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);  
+
+    
 	  var marker = new kakao.maps.Marker({
 	        map: map, // 마커를 표시할 지도
-	        position: positions[i].latlng // 마커의 위치
+	        position: positions[i].latlng, // 마커의 위치
+	        image: markerImage // 마커이미지 설정 
 	    });
+
+	  index++;
+	  if(index == 4){
+		  index = 1;
+	  }
 	  
 	  // 마커에 표시할 인포윈도우를 생성합니다 
 	    var infowindow = new kakao.maps.InfoWindow({

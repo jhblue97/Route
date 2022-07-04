@@ -27,9 +27,65 @@ public class TripShareDAO {
 	private boolean result;
 	
 
+	  public boolean deleteTripShare(String tripshareNo) {
+		  
+			
+		  
+		  query = "delete from tripshare where tripshareno = ?";
+				
 
+		  System.out.println(query);
+		  
+		  try { 
+		  con = DBcon.getConnection(); 
+		  pstmt = con.prepareStatement(query);
+		  pstmt.setInt(1,Integer.parseInt(tripshareNo)); 
+		  if(pstmt.executeUpdate()==1) { 
+			   System.out.println("delete ok"); 
+			  result = true;
+		  
+		  }else { 
+			  System.out.println("delete not ok");
+		  
+		  result = false; 
+		  }
+		  }catch (SQLException e) { // TODO Auto-generated catch block
+		  e.printStackTrace(); } finally { DBcon.close(pstmt);
+		  
+		  }
+		  return result; 
+		  }
 	  
-	
+	  
+  public boolean deleteTripShare2(String tripshareNo) {
+		  
+			
+		  
+		  query = "delete from PARTICIPANT where tripshareno = ?";
+				
+
+		  System.out.println(query);
+		  
+		  try { 
+		  con = DBcon.getConnection(); 
+		  pstmt = con.prepareStatement(query);
+		  pstmt.setInt(1,Integer.parseInt(tripshareNo)); 
+		  if(pstmt.executeUpdate()==1) { 
+			   System.out.println("delete ok"); 
+			  result = true;
+		  
+		  }else { 
+			  System.out.println("delete not ok");
+		  
+		  result = false; 
+		  }
+		  }catch (SQLException e) { // TODO Auto-generated catch block
+		  e.printStackTrace(); } finally { DBcon.close(pstmt);
+		  
+		  }
+		  return result; 
+		  }
+  
   public boolean addTripShare(TripShare trip) {
 		  
 	
